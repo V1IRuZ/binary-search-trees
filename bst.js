@@ -70,4 +70,45 @@ export default class Tree {
       previous.right = new Node(value);
     }
   }
+
+  _deleteRecursively(root, value) {
+    if (root === null) {
+      return null;
+    }
+
+    if (root.data > value) {
+      root.left = this._deleteRecursively(root.left, value);
+    } else if (root.data < value) {
+      root.right = this._deleteRecursively(root.right, value);
+    } else {
+      
+      if (!root.left) {
+        return root.right;
+      }
+
+      if (!root.right) {
+        return root.left;
+      }
+
+      let replacement = this._findReplacement(root);
+      root.data = replacement.data;
+      root.right = this._deleteRecursively(root.right, replacement.data);
+
+    }
+
+    return root;
+  }
+
+  _findReplacement(current) {
+    current = current.right;
+    while(current.left) {
+      current = current.left;
+    }
+
+    return current
+  }
+
+  delete(value) {
+    this.root = this._deleteRecursively(this.root, value);
+  }
 }
