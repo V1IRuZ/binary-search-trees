@@ -81,7 +81,6 @@ export default class Tree {
     } else if (root.data < value) {
       root.right = this._deleteRecursively(root.right, value);
     } else {
-      
       if (!root.left) {
         return root.right;
       }
@@ -93,7 +92,6 @@ export default class Tree {
       let replacement = this._findReplacement(root);
       root.data = replacement.data;
       root.right = this._deleteRecursively(root.right, replacement.data);
-
     }
 
     return root;
@@ -101,14 +99,32 @@ export default class Tree {
 
   _findReplacement(current) {
     current = current.right;
-    while(current.left) {
+    while (current.left) {
       current = current.left;
     }
 
-    return current
+    return current;
   }
 
   delete(value) {
     this.root = this._deleteRecursively(this.root, value);
+  }
+
+  _findRecursively(root, value) {
+    if (root === null) {
+      return null;
+    }
+
+    if (root.data > value) {
+      return this._findRecursively(root.left, value);
+    } else if (root.data < value) {
+      return this._findRecursively(root.right, value);
+    } else {
+      return root;
+    }
+  }
+
+  find(value) {
+    return this._findRecursively(this.root, value);
   }
 }
