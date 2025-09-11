@@ -127,4 +127,23 @@ export default class Tree {
   find(value) {
     return this._findRecursively(this.root, value);
   }
+
+  levelOrderRecursively(callback, queue = [this.root]) {
+    if (queue.length <= 0) {
+      return;
+    } else {
+      let current = queue.shift();
+
+      if (current.left) {
+        queue.push(current.left);
+      }
+
+      if (current.right) {
+        queue.push(current.right);
+      }
+
+      callback(current.data);
+      this.levelOrderRecursively(callback, queue);
+    }
+  }
 }
