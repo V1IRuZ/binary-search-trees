@@ -146,4 +146,25 @@ export default class Tree {
       this.levelOrderRecursively(callback, queue);
     }
   }
+
+  levelOrderForEach(callback) {
+    if (!this.root) {
+      return
+    }
+
+    let queue = [this.root];
+
+    while (queue.length > 0) {
+      const current = queue.shift();
+      callback(current.data);
+
+      if (current.left) {
+        queue.push(current.left);
+      }
+
+      if (current.right) {
+        queue.push(current.right);
+      }
+    }
+  }
 }
