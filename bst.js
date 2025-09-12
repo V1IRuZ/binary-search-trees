@@ -148,6 +148,10 @@ export default class Tree {
   }
 
   levelOrderForEach(callback) {
+    if (!callback) {
+      throw new Error("Callback is required");
+    }
+
     if (!this.root) {
       return
     }
@@ -156,7 +160,7 @@ export default class Tree {
 
     while (queue.length > 0) {
       const current = queue.shift();
-      callback(current.data);
+      callback(current);
 
       if (current.left) {
         queue.push(current.left);
