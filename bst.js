@@ -153,7 +153,7 @@ export default class Tree {
     }
 
     if (!this.root) {
-      return
+      return;
     }
 
     let queue = [this.root];
@@ -170,5 +170,23 @@ export default class Tree {
         queue.push(current.right);
       }
     }
+  }
+
+  _inOrderRecursively(root, callback) {
+    if (root === null) {
+      return null;
+    }
+
+    this._inOrderRecursively(root.left, callback);
+    callback(root);
+    this._inOrderRecursively(root.right, callback);
+  }
+
+  inOrderForEach(callback) {
+    if (!callback) {
+      throw new Error("Callback is required");
+    }
+
+    this._inOrderRecursively(this.root, callback);
   }
 }
