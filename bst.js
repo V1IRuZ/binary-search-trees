@@ -195,7 +195,7 @@ export default class Tree {
       return null;
     }
 
-    callback(root.data);
+    callback(root);
     this._preOrderRecursively(root.left, callback);
     this._preOrderRecursively(root.right, callback);
   }
@@ -206,5 +206,23 @@ export default class Tree {
     }
 
     this._preOrderRecursively(this.root, callback);
+  }
+
+  _postOrderRecursively(root, callback) {
+    if (root === null) {
+      return;
+    }
+
+    this._postOrderRecursively(root.left, callback);
+    this._postOrderRecursively(root.right, callback);
+    callback(root);
+  }
+
+  postOrderForEach(callback) {
+    if (!callback) {
+      throw new Error("Callback is required");
+    }
+
+    this._postOrderRecursively(this.root, callback);
   }
 }
