@@ -264,4 +264,31 @@ export default class Tree {
   depth(value) {
     return this._depthRecursively(this.root, value);
   }
+
+  _isBalancedRecursively(root) {
+    if (!root) {
+      return {
+        height: -1,
+        balanced: true,
+      };
+    }
+
+    const left = this._isBalancedRecursively(root.left);
+    const right = this._isBalancedRecursively(root.right);
+
+    const height = Math.max(left.height, right.height) + 1;
+    const balanced =
+      left.balanced &&
+      right.balanced &&
+      Math.abs(left.height - right.height) <= 1;
+
+    return {
+      height,
+      balanced,
+    };
+  }
+
+  isBalanced() {
+    return this._isBalancedRecursively(this.root).balanced;
+  }
 }
