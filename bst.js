@@ -246,4 +246,22 @@ export default class Tree {
 
     return this._heightRecursively(foundNode);
   }
+
+  _depthRecursively(root, value) {
+    if (root === null) {
+      return -1;
+    } else {
+      if (root.data > value) {
+        return this._depthRecursively(root.left, value) + 1;
+      } else if (root.data < value) {
+        return this._depthRecursively(root.right, value) + 1;
+      } else {
+        return 0;
+      }
+    }
+  }
+
+  depth(value) {
+    return this._depthRecursively(this.root, value);
+  }
 }
