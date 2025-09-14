@@ -291,4 +291,15 @@ export default class Tree {
   isBalanced() {
     return this._isBalancedRecursively(this.root).balanced;
   }
+
+  rebalance() {
+    if (!this.root) {
+      return;
+    }
+
+    const values = [];
+    this.inOrderForEach((node) => values.push(node.data));
+
+    this.root = this.createTree(values, 0, values.length - 1);
+  }
 }
