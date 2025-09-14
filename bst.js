@@ -225,4 +225,25 @@ export default class Tree {
 
     this._postOrderRecursively(this.root, callback);
   }
+
+  _heightRecursively(root) {
+    if (root === null) {
+      return -1;
+    } else {
+      const leftHeight = this._heightRecursively(root.left);
+      const rightHeight = this._heightRecursively(root.right);
+
+      return Math.max(leftHeight, rightHeight) + 1;
+    }
+  }
+
+  heigth(value) {
+    const foundNode = this.find(value);
+
+    if (!foundNode) {
+      return null;
+    }
+
+    return this._heightRecursively(foundNode);
+  }
 }
