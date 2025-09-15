@@ -44,32 +44,55 @@ export default class Tree {
     return this.createTree(sorted, 0, sorted.length - 1);
   }
 
-  insert(value) {
-    if (!this.root) {
-      this.root = new Node(value);
-      return;
+  _insertRecursively(root, value) {
+    if (root === null) {
+      return new Node(value);
     }
 
-    let previous = null;
-    let current = this.root;
-    while (current) {
-      if (value < current.data) {
-        previous = current;
-        current = current.left;
-      } else if (value > current.data) {
-        previous = current;
-        current = current.right;
-      } else {
-        return;
-      }
+    if (root.data === value) {
+      return root;
     }
 
-    if (value < previous.data) {
-      previous.left = new Node(value);
-    } else {
-      previous.right = new Node(value);
-    }
+    if (root.data > value) {
+      root.left = this._insertRecursively(root.left, value);
+    } else if (root.data < value) {
+      root.right = this._insertRecursively(root.right, value);
+    } 
+    
+    return root;
   }
+
+  insert(value) {
+    return this._insertRecursively(this.root, value);
+  }
+
+
+  // insert(value) {
+  //   if (!this.root) {
+  //     this.root = new Node(value);
+  //     return;
+  //   }
+
+  //   let previous = null;
+  //   let current = this.root;
+  //   while (current) {
+  //     if (value < current.data) {
+  //       previous = current;
+  //       current = current.left;
+  //     } else if (value > current.data) {
+  //       previous = current;
+  //       current = current.right;
+  //     } else {
+  //       return;
+  //     }
+  //   }
+
+  //   if (value < previous.data) {
+  //     previous.left = new Node(value);
+  //   } else {
+  //     previous.right = new Node(value);
+  //   }
+  // }
 
   _deleteRecursively(root, value) {
     if (root === null) {
