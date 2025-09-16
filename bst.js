@@ -11,7 +11,7 @@ export default class Tree {
     this.root = this.buildTree(array);
   }
 
-  sort(array) {
+  _sort(array) {
     const sortedArray = array.toSorted((a, b) => a - b);
     const uniques = [];
 
@@ -24,7 +24,7 @@ export default class Tree {
     return uniques;
   }
 
-  createTree(array, start, end) {
+  _sortedArrayToBST(array, start, end) {
     if (start > end) {
       return null;
     }
@@ -32,16 +32,16 @@ export default class Tree {
     const mid = start + Math.floor((end - start) / 2);
     const root = new Node(array[mid]);
 
-    root.left = this.createTree(array, start, mid - 1);
-    root.right = this.createTree(array, mid + 1, end);
+    root.left = this._sortedArrayToBST(array, start, mid - 1);
+    root.right = this._sortedArrayToBST(array, mid + 1, end);
 
     return root;
   }
 
   buildTree(array) {
-    const sorted = this.sort(array);
+    const sorted = this._sort(array);
 
-    return this.createTree(sorted, 0, sorted.length - 1);
+    return this._sortedArrayToBST(sorted, 0, sorted.length - 1);
   }
 
   _insertRecursively(root, value) {
@@ -67,32 +67,32 @@ export default class Tree {
   }
 
 
-  // insert(value) {
-  //   if (!this.root) {
-  //     this.root = new Node(value);
-  //     return;
-  //   }
+  insertIteratively(value) {
+    if (!this.root) {
+      this.root = new Node(value);
+      return;
+    }
 
-  //   let previous = null;
-  //   let current = this.root;
-  //   while (current) {
-  //     if (value < current.data) {
-  //       previous = current;
-  //       current = current.left;
-  //     } else if (value > current.data) {
-  //       previous = current;
-  //       current = current.right;
-  //     } else {
-  //       return;
-  //     }
-  //   }
+    let previous = null;
+    let current = this.root;
+    while (current) {
+      if (value < current.data) {
+        previous = current;
+        current = current.left;
+      } else if (value > current.data) {
+        previous = current;
+        current = current.right;
+      } else {
+        return;
+      }
+    }
 
-  //   if (value < previous.data) {
-  //     previous.left = new Node(value);
-  //   } else {
-  //     previous.right = new Node(value);
-  //   }
-  // }
+    if (value < previous.data) {
+      previous.left = new Node(value);
+    } else {
+      previous.right = new Node(value);
+    }
+  }
 
   _deleteRecursively(root, value) {
     if (root === null) {
@@ -323,6 +323,6 @@ export default class Tree {
     const values = [];
     this.inOrderForEach((node) => values.push(node.data));
 
-    this.root = this.createTree(values, 0, values.length - 1);
+    this.root = this._sortedArrayToBST(values, 0, values.length - 1);
   }
 }
