@@ -57,15 +57,14 @@ export default class Tree {
       root.left = this._insertRecursively(root.left, value);
     } else if (root.data < value) {
       root.right = this._insertRecursively(root.right, value);
-    } 
-    
+    }
+
     return root;
   }
 
   insert(value) {
     return this._insertRecursively(this.root, value);
   }
-
 
   insertIteratively(value) {
     if (!this.root) {
@@ -275,9 +274,11 @@ export default class Tree {
       return -1;
     } else {
       if (root.data > value) {
-        return this._depthRecursively(root.left, value) + 1;
+        const left = this._depthRecursively(root.left, value);
+        return left === -1 ? -1 : left + 1;
       } else if (root.data < value) {
-        return this._depthRecursively(root.right, value) + 1;
+        const right = this._depthRecursively(root.right, value);
+        return right === -1 ? -1 : right + 1;
       } else {
         return 0;
       }
@@ -285,7 +286,12 @@ export default class Tree {
   }
 
   depth(value) {
-    return this._depthRecursively(this.root, value);
+    const depth = this._depthRecursively(this.root, value);
+    if (depth >= 0) {
+      return depth;
+    }
+
+    return null;
   }
 
   _isBalancedRecursively(root) {
